@@ -15,13 +15,15 @@ Allows you to embed a NodePing status page within WordPress using a simple short
 
 The NodePing status page can be embedded with this shortcode:
 
-[nodeping_status]
+	[nodeping_status]
 
 You can optionally specifiy how many days of uptime to display (days), and how many days to use to calculate total uptime (total):
 
-[nodeping_status days="7" total="30"]</pre>
+	[nodeping_status days="7" total="30"]</pre>
 
 [NodePing](http://nodeping.com/) is a Server and Website monitoring service. To use this plugin, you need a [nodeping.com](http://nodeping.com) account.
+
+See it in action on my website: http://www.exactlywww.com/cloud/status
 
 == Installation ==
 

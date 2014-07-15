@@ -17,14 +17,12 @@ License: GPLv3
 
 // Constants
 define('NODEPING_STATUS_DOMAIN', 'nodeping-status');
-// the folder where we install optimization tools
-//define('EWWW_IMAGE_OPTIMIZER_TOOL_PATH', WP_CONTENT_DIR . '/ewww/');
 // this is the full path of the plugin file itself
 define('NODEPING_STATUS_PLUGIN_FILE', __FILE__);
 // this is the path of the plugin file relative to the plugins/ folder
 define('NODEPING_STATUS_PLUGIN_FILE_REL', 'nodeping-status/nodeping-status.php');
 
-// we check for safe mode and exec, then also direct the user where to go if they don't have the tools installed
+// check to see if they've entered their API token yet
 function nodeping_status_notice() {
 	// if no api secret entered, display the warning
 	echo "<div id='nodeping-status-warning' class='error'><p>" . sprintf(__('To display a NodePing status page, you must first enter your API token on the %1$s.', NODEPING_STATUS_DOMAIN), "<a href='options-general.php?page=" . NODEPING_STATUS_PLUGIN_FILE_REL . "'>" . __('Settings Page', NODEPING_STATUS_DOMAIN) . "</a>") . "</p></div>";
@@ -62,7 +60,7 @@ function nodeping_status_admin_init() {
 	register_setting( 'nodeping_status_options', 'nodeping_status_api_token', 'nodeping_status_token_verify' );
 }
 
-// adds the bulk optimize and settings page to the admin menu
+// adds the settings page to the admin menu
 function nodeping_status_admin_menu() {
 	$nps_options_page = add_options_page(
 		'NodePing Status',		//Title
@@ -226,28 +224,7 @@ function nodeping_status_shortcode ( $atts ) {
 }
 add_shortcode( 'nodeping_status', 'nodeping_status_shortcode' );
 
-//TODO: we probably don't need these, since we don't want people setting a token network-wide
-// retrieve an option: use 'site' setting if plugin is network activated, otherwise use 'blog' setting
-/*function nodeping_status_get_option ($option_name) {
-	if (function_exists('is_plugin_active_for_network') && is_plugin_active_for_network(plugin_basename(NODEPING_STATUS_PLUGIN_FILE))) {
-		$option_value = get_site_option($option_name);
-	} else {
-		$option_value = get_option($option_name);
-	}
-	return $option_value;
-}
-
-// set an option: use 'site' setting if plugin is network activated, otherwise use 'blog' setting
-function nodeping_status_set_option ($option_name, $option_value) {
-	if (function_exists('is_plugin_active_for_network') && is_plugin_active_for_network(plugin_basename(NODEPING_STATUS_PLUGIN_FILE))) {
-		$success = update_site_option($option_name, $option_value);
-	} else {
-		$success = update_option($option_name, $option_value);
-	}
-	return $success;
-}*/
-
-// displays the EWWW IO options and provides one-click install for the optimizer utilities
+// displays the NodePing options
 function nodeping_status_options () {
 ?>
 	<div class="wrap">
@@ -259,6 +236,7 @@ function nodeping_status_options () {
 		<?php _e('The attributes are optional, days is how many days of uptime stats you want to include, and total is how many days will be used to calculate the total uptime.', NODEPING_STATUS_DOMAIN); ?></p>
 		<form method="post" action="options.php">
 			<?php settings_fields('nodeping_status_options');  ?>
+			<p class="description"><?php _e('Be very careful with your API Token, as it can be used to make changes to your account.', NODEPING_STATUS_DOMAIN); ?></p>
 			<table class="form-table">
 				<tr><th><label for="nodeping_status_api_token"><?php _e('NodePing API Token', NODEPING_STATUS_DOMAIN); ?></label></th><td><input type="text" id="nodeping_status_api_token" name="nodeping_status_api_token" value="<?php echo get_option('nodeping_status_api_token'); ?>" size="40" /> <?php if (get_option('nodeping_status_api_token')) { echo "<i class='fa fa-check-circle' style='color: #366836'>&nbsp;</i>"; } ?></td></tr>
 			</table>
