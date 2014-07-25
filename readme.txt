@@ -23,7 +23,7 @@ You can optionally specifiy how many days of uptime to display (days), and how m
 
 [NodePing](http://nodeping.com/) is a Server and Website monitoring service. To use this plugin, you need a [nodeping.com](http://nodeping.com) account.
 
-See it in action on my website: http://www.exactlywww.com/cloudstatus
+See it in action on my website: http://www.exactlywww.com/cloudstatus/
 
 == Installation ==
 

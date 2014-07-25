@@ -36,11 +36,10 @@ define('NODEPING_STATUS_VERSION', '100');
 // variable for plugin settings link
 $plugin = plugin_basename (NODEPING_STATUS_PLUGIN_FILE);
 add_filter("plugin_action_links_$plugin", 'nodeping_status_settings_link');
+add_action('init', 'nodeping_status_init');
 add_action('admin_init', 'nodeping_status_admin_init');
 add_action('admin_menu', 'nodeping_status_admin_menu', 60);
-add_action('admin_enqueue_scripts', 'nodeping_status_scripts');
 add_action('wp_enqueue_scripts', 'nodeping_status_scripts');
-register_deactivation_hook(NODEPING_STATUS_PLUGIN_FILE, 'nodeping_status_network_deactivate');
 
 /**
  * Plugin initialization function
@@ -72,7 +71,7 @@ function nodeping_status_admin_menu() {
 }
 
 // enqueue custom scripts/stylesheets
-function nodeping_status_scripts($hook) {
+function nodeping_status_scripts() {
 	wp_enqueue_style('datatable', plugins_url('css/datatable.css', __FILE__));
 	wp_enqueue_style('fontawesome', plugins_url('css/font-awesome.min.css', __FILE__));
 }
@@ -245,4 +244,3 @@ function nodeping_status_options () {
 	</div>
 	<?php
 }
-?>
